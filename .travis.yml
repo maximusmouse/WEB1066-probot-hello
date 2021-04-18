@@ -13,7 +13,7 @@ script:
   - docker images
   - docker tag node:$NODE_VERSION $DOCKER_USERNAME/probot-hello:$NODE_VERSION-$(git rev-parse HEAD)
   - docker push $DOCKER_USERNAME/probot-hello:$NODE_VERSION-$(git rev-parse HEAD)
-  
+
 stages:
   - test
   - npm-targets
@@ -21,34 +21,35 @@ stages:
 jobs:
   include:
     - stage: npm-targets
-    name : "test 8-jessie"
-    install: skip
-    script: 
+      name: "Test 8-jessie test"
+      install: skip
+      script:
       - docker run --rm $DOCKER_USERNAME/probot-hello:$NODE_VERSION-$(git rev-parse HEAD) npm run $NPM_TARGET
-    env:
+      env:
       - NODE_VERSION=8-jessie
-      - NODE_TARGET=test
+      - NPM_TARGET=test
     - stage: npm-targets
-    name : "test 8-jessie"
-    install: skip
-    script: 
+      name: "Test 8-jessie lint"
+      install: skip
+      script:
       - docker run --rm $DOCKER_USERNAME/probot-hello:$NODE_VERSION-$(git rev-parse HEAD) npm run $NPM_TARGET
-    env:
+      env:
       - NODE_VERSION=8-jessie
-      - NODE_TARGET=lint
-     - stage: npm-targets
-    name : "test 10-jessie"
-    install: skip
-    script: 
-      - docker run --rm $DOCKER_USERNAME/probot-hello:$NODE_VERSION-$(git rev-parse HEAD) npm run $NPM_TARGET
-    env:
-      - NODE_VERSION=10-jessie
-      - NODE_TARGET=test
+      - NPM_TARGET=lint
     - stage: npm-targets
-    name : "test 10-jessie"
-    install: skip
-    script: 
+      name: "Test 6-jessie test"
+      install: skip
+      script:
       - docker run --rm $DOCKER_USERNAME/probot-hello:$NODE_VERSION-$(git rev-parse HEAD) npm run $NPM_TARGET
-    env:
-      - NODE_VERSION=10-jessie
-      - NODE_TARGET=lint
+      env:
+      - NODE_VERSION=6-jessie
+      - NPM_TARGET=test
+    - stage: npm-targets
+      name: "Test 6-jessie lint"
+      install: skip
+      script:
+      - docker run --rm $DOCKER_USERNAME/probot-hello:$NODE_VERSION-$(git rev-parse HEAD) npm run $NPM_TARGET
+      env:
+      - NODE_VERSION=6-jessie
+      - NPM_TARGET=lint
+
